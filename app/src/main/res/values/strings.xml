@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">GuardianInsyder</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!--TabLayout Titles-->
+    <string name="tech">TECH</string>
+    <string name="lifestyle">LIFESTYLE</string>
+    <string name="food">FOOD</string>
+    <string name="sports">SPORTS</string>
+    <string name="no_news_found">No news found!!</string>
+</resources>
