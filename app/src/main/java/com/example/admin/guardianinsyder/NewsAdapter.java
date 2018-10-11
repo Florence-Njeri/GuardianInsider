@@ -32,7 +32,6 @@ Context context;
         final News news=newsArrayList.get(position);
 //Create a new view and bind it with the data obtained from the News class
       newsViewHolder.title.setText(news.getTitle());
-      newsViewHolder.author.setText(news.getAuthor());
       newsViewHolder.genre.setText(news.getGenre());
       newsViewHolder.date.setText(news.getDate());
       newsViewHolder.url.setText(news.getUrl());

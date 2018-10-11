@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
     <!--RecyclerView to populate the fragments-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"/>
     <!--TextView to indicate an empty list-->
     <TextView
         android:id="@+id/empty_news_list"
@@ -24,8 +25,9 @@
         android:id="@+id/progress_bar"
         android:layout_width="146dp"
         android:layout_height="126dp"
+        android:layout_centerInParent="true"
         android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="110dp" />
-</LinearLayout>
+</RelativeLayout>
