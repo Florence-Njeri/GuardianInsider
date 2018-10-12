@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.admin.guardianinsyder.Loader.FoodNewsLoader;
+import com.example.admin.guardianinsyder.Loader.SportsLoader;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -56,13 +56,14 @@ public class SportsFragment extends Fragment implements LoaderManager.LoaderCall
         //Inflate the layout for tis fragment
         View rootView = inflater.inflate(R.layout.fragment_layout, container, false);
 
+       //Initialize the empty text view and the progress bar
         emptyNewsList = rootView.findViewById(R.id.empty_news_list);
         progressBar = rootView.findViewById(R.id.progress_bar);
 
         //Find the RecyclerView to be populated by the adapter
         foodRecyclerView = rootView.findViewById(R.id.my_recycler_view);
 
-        //The layout manager
+        //The layout manager a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         foodRecyclerView.setLayoutManager(layoutManager);
         foodRecyclerView.setHasFixedSize(true);
@@ -89,18 +90,21 @@ public class SportsFragment extends Fragment implements LoaderManager.LoaderCall
     @NonNull
     @Override
     public Loader <ArrayList <News>> onCreateLoader(int i, @Nullable Bundle bundle) {
-//Initialize a Loader object thus creating a new Loader
-        return new FoodNewsLoader(Objects.requireNonNull(getContext()), FOOD_NEWS_URL);
+        //Initialize a Loader object thus creating a new Loader
+        return new SportsLoader(Objects.requireNonNull(getContext()), FOOD_NEWS_URL);
     }
 
     //Receive data and update the UI
     @Override
     public void onLoadFinished(@NonNull Loader <ArrayList <News>> loader, ArrayList <News> newsArrayList) {
+        //Clear the previously uploaded list
+       // foodNewsList.clear();
         emptyNewsList.setText(R.string.no_news_found);
         progressBar.setVisibility(GONE);
 
 
         if (newsArrayList != null) {
+           foodNewsList.addAll(newsArrayList);
             newsAdapter.notifyDataSetChanged();
         }
     }

@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.admin.guardianinsyder.Loader.FoodNewsLoader;
+import com.example.admin.guardianinsyder.Loader.TechNewsLoader;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -90,17 +90,20 @@ public class TechNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader <ArrayList <News>> onCreateLoader(int i, @Nullable Bundle bundle) {
 //Initialize a Loader object thus creating a new Loader
-        return new FoodNewsLoader(Objects.requireNonNull(getContext()), FOOD_NEWS_URL);
+        return new TechNewsLoader(Objects.requireNonNull(getContext()), FOOD_NEWS_URL);
     }
 
     //Receive data and update the UI
     @Override
     public void onLoadFinished(@NonNull Loader <ArrayList <News>> loader, ArrayList <News> newsArrayList) {
+        //Clear the previous list
+        //foodNewsList.clear();
         emptyNewsList.setText(R.string.no_news_found);
         progressBar.setVisibility(GONE);
 
 
         if (newsArrayList != null) {
+            foodNewsList.addAll(newsArrayList);
             newsAdapter.notifyDataSetChanged();
 
         }

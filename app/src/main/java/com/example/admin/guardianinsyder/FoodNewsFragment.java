@@ -96,11 +96,14 @@ public class FoodNewsFragment extends Fragment implements LoaderManager.LoaderCa
     //Receive data and update the UI
     @Override
     public void onLoadFinished(@NonNull Loader <ArrayList <News>> loader, ArrayList <News> newsArrayList) {
+        //Clear previously updated list if any
+        //foodNewsList.clear();
         emptyNewsList.setText(R.string.no_news_found);
         progressBar.setVisibility(GONE);
 
 
         if (newsArrayList != null) {
+            foodNewsList.addAll(newsArrayList);
             newsAdapter.notifyDataSetChanged();
         }
     }

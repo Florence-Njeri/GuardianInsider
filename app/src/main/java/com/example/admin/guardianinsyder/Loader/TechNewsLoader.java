@@ -33,7 +33,6 @@ public class TechNewsLoader extends AsyncTaskLoader <ArrayList <News>> {
         if (url == null) {
             return null;
         }
-        ArrayList <News> foodQueryArray = FoodQueryUtils.fetchJsonData(url);
-        return foodQueryArray;
+        return FoodQueryUtils.fetchJsonData(url);
     }
 }
