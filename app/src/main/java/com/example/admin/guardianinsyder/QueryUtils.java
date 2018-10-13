@@ -16,7 +16,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -25,6 +29,8 @@ public class QueryUtils {
     private QueryUtils() {
 
     }
+
+    private static int SUCCESS_CODE = 200;
 
     private static URL createUrl(String stringUrl) {
         URL url = null;
@@ -64,7 +70,7 @@ public class QueryUtils {
         httpURLConnection.connect();
 
         //Check whether the connection is successfull when true read from the InputStream and parse the response
-        if (httpURLConnection.getResponseCode() == 200) {
+        if (httpURLConnection.getResponseCode() == SUCCESS_CODE) {
             inputStream = httpURLConnection.getInputStream();
             jsonResponse = readFromStream(inputStream);
         } else {
@@ -92,6 +98,29 @@ public class QueryUtils {
         }
         return builderOutput.toString();
     }
+             /*
+        Format date method parsed from the JSON response
+         */
+
+
+    private static String dateFormatter(String rawDate) {
+        String jsonDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        SimpleDateFormat initialDateFormat = new SimpleDateFormat(jsonDateFormat, Locale.US);
+        try {
+            //Convert the input date parameter to the simpleDateFormat specified above
+            Date parseJSONDate = initialDateFormat.parse(rawDate);
+            //The string of how the final date format should look like
+            String finalDatePattern = "MMM d,yyyy";
+            SimpleDateFormat finalDateFormat = new SimpleDateFormat(finalDatePattern, Locale.US);
+            //Finally parse the convert the JSON date to the specified pattern
+            return finalDateFormat.format(parseJSONDate);
+
+        } catch (ParseException e) {
+            Log.e(TAG, "Problem formatting date!!");
+            return "";
+        }
+    }
+
 
     /*After obtaining JSON from the URL, you can now read the JSON data contained in it
      * Since it will return a list of extracted news the dataType will be ArrayList and so will the return data
@@ -114,26 +143,17 @@ public class QueryUtils {
                 String title = currentObject.optString("webTitle");
                 String genre = currentObject.optString("sectionName");
                 String dateOfPublication = currentObject.optString("webPublicationDate");
+                dateOfPublication = dateFormatter(dateOfPublication);
                 String url = currentObject.optString("webUrl");
                 JSONArray tagsArray = currentObject.getJSONArray("tags");
                 //Declare String variable to hold author name
                 String author = " ";
                 for (int j = 0; j < tagsArray.length(); j++) {
                     JSONObject contributorTag = tagsArray.getJSONObject(j);
-                    author = contributorTag.getString("webTitle");}
+                    author = contributorTag.optString("webTitle");
+                }
 
-//                //Extract the JSONArray with the key "tag"
-//                JSONArray tagsArray = currentObject.getJSONArray("tags");
-//                //Declare String variable to hold author name
-//                String author = " ";
-//                if (tagsArray.length() == 0) {
-//                    author = null;
-//                } else {
-//                    for (int j = 0; j < tagsArray.length(); j++) {
-//                        JSONObject contributorTag = tagsArray.getJSONObject(j);
-//                        author = contributorTag.getString("webTitle");
-//                    }
-//                }
+
                 //Then add the object to the arrayList
 
                 foodNewsArrayList.add(new News(title, genre, dateOfPublication, url, author));
@@ -146,6 +166,7 @@ public class QueryUtils {
 
         return foodNewsArrayList;
     }
+
 
     public static ArrayList <News> fetchJsonData(String requestedUrl) {
 

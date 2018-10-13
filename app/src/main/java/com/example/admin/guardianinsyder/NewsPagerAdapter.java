@@ -12,16 +12,18 @@ public class NewsPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.context=context;
     }
-
+    private static final int TECH = 0;
+    private static final int LIFESTYLE = 1;
+    private static final int FOOD = 2;
     @Override
     public Fragment getItem(int position) {
-        if(position==0){
+        if(position==TECH){
             return new TechNewsFragment();
         }
-        else if(position==1){
+        else if(position==LIFESTYLE){
             return new LifestyleNewsFragment();
         }
-        else if(position==2){
+        else if(position==FOOD){
             return new FoodNewsFragment();
         }
         else
