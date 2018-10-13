@@ -36,9 +36,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         final News news=newsArrayList.get(position);
 //Create a new view and bind it with the data obtained from the News class
         newsViewHolder.title.setText(news.getTitle());
-        newsViewHolder.genre.setText(news.getAuthor());
+        newsViewHolder.genre.setText("By " + news.getGenre());
         newsViewHolder.date.setText(news.getDate());
-        newsViewHolder.author.setText(news.getAuthor());
+        newsViewHolder.author.setText( news.getAuthor());
 
         newsViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
