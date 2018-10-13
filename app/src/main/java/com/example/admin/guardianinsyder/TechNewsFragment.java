@@ -4,6 +4,7 @@ package com.example.admin.guardianinsyder;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,8 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.example.admin.guardianinsyder.Loader.TechNewsLoader;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -43,7 +42,7 @@ public class TechNewsFragment extends Fragment implements LoaderManager.LoaderCa
     ProgressBar progressBar;
     NewsAdapter newsAdapter;
     RecyclerView foodRecyclerView;
-    public final String FOOD_NEWS_URL = "https://content.guardianapis.com/search?q=food&api-key=test";
+    public final String FOOD_NEWS_URL = "https://content.guardianapis.com/search";
     ArrayList <News> foodNewsList;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -75,7 +74,7 @@ public class TechNewsFragment extends Fragment implements LoaderManager.LoaderCa
         assert checkConnection != null;
         NetworkInfo activeNetwork = checkConnection.getActiveNetworkInfo();
         if (activeNetwork != null && activeNetwork.isConnected()) {
-            getLoaderManager().initLoader(0, null, this);
+            getLoaderManager().initLoader(2, null, this);
         } else {
             progressBar.setVisibility(GONE);
             emptyNewsList.setText(R.string.no_internet);
@@ -89,23 +88,33 @@ public class TechNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @NonNull
     @Override
     public Loader <ArrayList <News>> onCreateLoader(int i, @Nullable Bundle bundle) {
-//Initialize a Loader object thus creating a new Loader
-        return new TechNewsLoader(Objects.requireNonNull(getContext()), FOOD_NEWS_URL);
+        Uri newsUri=Uri.parse(FOOD_NEWS_URL);
+        Uri.Builder uriBuilder =newsUri.buildUpon();//Append the given segment to the path
+        uriBuilder .appendQueryParameter("order-by","newest");//Encode key and value and pass them to the query string
+        uriBuilder .appendQueryParameter("show-tags","contributor");
+        uriBuilder .appendQueryParameter("q","tech");
+        uriBuilder .appendQueryParameter("api-key","62fb0645-db89-4dc3-9899-fcc0fe9c998c");
+
+
+//Initialize a Loader object thus creating a new Loader and return the full uri
+        return new NewsLoader(Objects.requireNonNull(getContext()),uriBuilder.toString());
     }
 
     //Receive data and update the UI
     @Override
     public void onLoadFinished(@NonNull Loader <ArrayList <News>> loader, ArrayList <News> newsArrayList) {
         //Clear the previous list
-        //foodNewsList.clear();
-        emptyNewsList.setText(R.string.no_news_found);
-        progressBar.setVisibility(GONE);
+        foodNewsList.clear();
 
+        progressBar.setVisibility(GONE);
 
         if (newsArrayList != null) {
             foodNewsList.addAll(newsArrayList);
             newsAdapter.notifyDataSetChanged();
 
+        }
+        else{
+            emptyNewsList.setText(R.string.no_news_found);
         }
     }
 

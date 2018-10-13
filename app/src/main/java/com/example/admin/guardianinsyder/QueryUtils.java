@@ -1,4 +1,4 @@
-package com.example.admin.guardianinsyder.Query;
+package com.example.admin.guardianinsyder;
 
 import android.util.Log;
 
@@ -20,11 +20,12 @@ import java.util.ArrayList;
 
 import static android.support.constraint.Constraints.TAG;
 
-public class FoodQueryUtils {
+public class QueryUtils {
 
-    private FoodQueryUtils(){
+    private QueryUtils() {
 
     }
+
     private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
@@ -38,7 +39,6 @@ public class FoodQueryUtils {
     /**
      * Used to connect to @param FOOD_NEWS_URL, check if connected and when its connected get JSON
      * data returned by @method readFromStream() which returns the whole file containing JSON
-     *
      */
 
     private static String checkHttpConnection(URL url) throws IOException {
@@ -97,30 +97,49 @@ public class FoodQueryUtils {
      * Since it will return a list of extracted news the dataType will be ArrayList and so will the return data
      */
 
-    private static ArrayList <News> getJSONData(String JSONData)  {
+    private static ArrayList <News> getJSONData(String JSONData) {
         //New News ArrayList to be populated with the data obtained
         ArrayList <News> foodNewsArrayList = new ArrayList <>();
         //First convert the JSON String from the checkHttpConnection() into a JSON Object
-        try{
+        try {
             JSONObject rootJsonObject = new JSONObject(JSONData);
-            JSONObject newsObject=rootJsonObject.getJSONObject("response");
+            JSONObject newsObject = rootJsonObject.getJSONObject("response");
             JSONArray jsonArray = newsObject.getJSONArray("results");
 
             //Use a loop to pass through the entire array
-            for (int i = 0; i <= jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject currentObject = jsonArray.getJSONObject(i);
                 //Extract what you need
-                String title = currentObject.getString("webTitle");
-                String genre = currentObject.getString("sectionName");
-                String dateOfPublication = currentObject.getString("webPublicationDate");
-                String url = currentObject.getString("webUrl");
+                String title = currentObject.optString("webTitle");
+                String genre = currentObject.optString("sectionName");
+                String dateOfPublication = currentObject.optString("webPublicationDate");
+                String url = currentObject.optString("webUrl");
+                JSONArray tagsArray = currentObject.getJSONArray("tags");
+                //Declare String variable to hold author name
+                String author = " ";
+                for (int j = 0; j < tagsArray.length(); j++) {
+                    JSONObject contributorTag = tagsArray.getJSONObject(j);
+                    author = contributorTag.getString("webTitle");}
 
+//                //Extract the JSONArray with the key "tag"
+//                JSONArray tagsArray = currentObject.getJSONArray("tags");
+//                //Declare String variable to hold author name
+//                String author = " ";
+//                if (tagsArray.length() == 0) {
+//                    author = null;
+//                } else {
+//                    for (int j = 0; j < tagsArray.length(); j++) {
+//                        JSONObject contributorTag = tagsArray.getJSONObject(j);
+//                        author = contributorTag.getString("webTitle");
+//                    }
+//                }
                 //Then add the object to the arrayList
-                foodNewsArrayList.add( new News(title, genre, dateOfPublication, url));
+
+                foodNewsArrayList.add(new News(title, genre, dateOfPublication, url, author));
+
             }
-        }
-        catch(JSONException e){
+        } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing news JSON results", e);
         }
 
@@ -128,19 +147,19 @@ public class FoodQueryUtils {
         return foodNewsArrayList;
     }
 
-    public static ArrayList<News> fetchJsonData(String requestedUrl){
+    public static ArrayList <News> fetchJsonData(String requestedUrl) {
 
         //Create a URL object
-        URL url=createUrl(requestedUrl);
+        URL url = createUrl(requestedUrl);
         //Perform HTTPRequest and receive the response back
         String jsonResponse = null;
-        try{
-            jsonResponse=checkHttpConnection(url);
+        try {
+            jsonResponse = checkHttpConnection(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
 //Now extract from the JSON response
-        ArrayList<News> foodNewsArrayList;
+        ArrayList <News> foodNewsArrayList;
 
         foodNewsArrayList = getJSONData(jsonResponse);
 

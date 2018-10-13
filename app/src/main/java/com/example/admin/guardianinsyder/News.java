@@ -2,30 +2,40 @@ package com.example.admin.guardianinsyder;
 
 public class News {
     private String title;
+    private String author;
     private String genre;
-    private String url;
     private String date;
+    private String url;
 
-    public News(String title,String genre,String date,String url){
+
+    public News(String title,String author,String date,String url,String genre){
         this.title=title;
-        this.genre=genre;
-        this.url=url;
+        this.author=author;
         this.date=date;
+        this.url=url;
+        this.genre=genre;
+
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public String getDate() {
-        return date;
+    public String getGenre() {
+        return genre;
     }
 }
+
+

@@ -1,23 +1,19 @@
-package com.example.admin.guardianinsyder.Loader;
+package com.example.admin.guardianinsyder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import com.example.admin.guardianinsyder.News;
-import com.example.admin.guardianinsyder.Query.FoodQueryUtils;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
-public class TechNewsLoader extends AsyncTaskLoader <ArrayList <News>> {
+public class NewsLoader extends AsyncTaskLoader <ArrayList <News>> {
     //Loader constructor
     private String url;
 
-    public TechNewsLoader(@NonNull Context context, String url) {
+    public NewsLoader(@NonNull Context context, String url) {
         super(context);
         this.url = url;
     }
@@ -33,6 +29,6 @@ public class TechNewsLoader extends AsyncTaskLoader <ArrayList <News>> {
         if (url == null) {
             return null;
         }
-        return FoodQueryUtils.fetchJsonData(url);
+        return QueryUtils.fetchJsonData(url);
     }
 }

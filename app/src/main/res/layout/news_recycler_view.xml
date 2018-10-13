@@ -2,28 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeightLarge"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:cardCornerRadius="10dp"
         android:layout_margin="5dp"
-        android:outlineAmbientShadowColor="#000">
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <TextView
                 android:id="@+id/headline"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                tools:text="Headline" />
+                tools:text="Headline"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/author"
@@ -31,18 +35,27 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 tools:text="Author" />
-            <TextView
-                android:id="@+id/genre"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                tools:text="Genre" />
-            <TextView
-                android:id="@+id/publication_date"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                tools:text="PublicationDate" />
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/genre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:text="Genre" />
+
+                <TextView
+                    android:id="@+id/publication_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:text="PublicationDate" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
