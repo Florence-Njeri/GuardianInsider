@@ -14,12 +14,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
-    private ArrayList<News>   newsArrayList;
+public class NewsAdapter extends RecyclerView.Adapter <NewsAdapter.NewsViewHolder> {
+    private ArrayList <News> newsArrayList;
     Context context;
-    public NewsAdapter(Context context,ArrayList<News> newsArrayList){
-        this.context=context;
-        this.newsArrayList=newsArrayList;
+
+    public NewsAdapter(Context context, ArrayList <News> newsArrayList) {
+        this.context = context;
+        this.newsArrayList = newsArrayList;
     }
 
     @NonNull
@@ -31,21 +32,22 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return new NewsViewHolder(view);
 
     }
+
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder newsViewHolder, int position) {
-        final News news=newsArrayList.get(position);
+        final News news = newsArrayList.get(position);
 //Create a new view and bind it with the data obtained from the News class
         newsViewHolder.title.setText(news.getTitle());
         newsViewHolder.genre.setText("By " + news.getGenre());
         newsViewHolder.date.setText(news.getDate());
-        newsViewHolder.author.setText( news.getAuthor());
+        newsViewHolder.author.setText(news.getAuthor());
 
         newsViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String webSiteUrl=news.getUrl();
+                String webSiteUrl = news.getUrl();
 
-                Intent websiteIntent=new Intent(Intent.ACTION_VIEW,Uri.parse(webSiteUrl));
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webSiteUrl));
                 context.startActivity(websiteIntent);
             }
         });
@@ -61,22 +63,23 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return newsArrayList == null ? 0 : newsArrayList.size();
     }
 
-    public  class NewsViewHolder extends RecyclerView.ViewHolder{
+    public class NewsViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView author;
         TextView date;
         TextView genre;
         CardView cardView;
+
         public NewsViewHolder(@NonNull View itemView) {
 
 
             super(itemView);
 
-            title=itemView.findViewById(R.id.headline);
-            author=itemView.findViewById(R.id.author);
-            date=itemView.findViewById(R.id.publication_date);
-            genre=itemView.findViewById(R.id.genre);
-            cardView=itemView.findViewById(R.id.card_view);
+            title = itemView.findViewById(R.id.headline);
+            author = itemView.findViewById(R.id.author);
+            date = itemView.findViewById(R.id.publication_date);
+            genre = itemView.findViewById(R.id.genre);
+            cardView = itemView.findViewById(R.id.card_view);
 
         }
     }
