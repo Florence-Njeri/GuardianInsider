@@ -1,4 +1,4 @@
-<h1> GuardianInsider</h1>
+<h1>News App</h1>
 <h3>What I learnt</h3>
 <ul>
 <li>Connecting to an API</li>
